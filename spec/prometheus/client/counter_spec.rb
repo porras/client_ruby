@@ -34,7 +34,7 @@ module Prometheus::Client
         counter.increment.should eql(1)
       end
 
-      it 'is thread safe' do
+      it 'is thread-safe' do
         expect do
           10.times.map do
             Thread.new do
@@ -66,7 +66,7 @@ module Prometheus::Client
         end.to change { counter.get }.by(-5)
       end
 
-      it 'is thread safe' do
+      it 'is thread-safe' do
         100.times { counter.increment }
 
         expect do

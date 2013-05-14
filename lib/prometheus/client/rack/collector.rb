@@ -17,8 +17,11 @@ module Prometheus
           start = Time.now
           @app.call(env)
         ensure
+          duration = ((Time.now - start) * 1_000_000).to_i
+
           @requests.increment
-          @requests_duration.increment({}, ((Time.now - start) * 1_000_000).to_i)
+          @requests_duration.increment({}, duration)
+          @requests_durations.add({}, duration)
         end
 
       protected
@@ -26,6 +29,7 @@ module Prometheus
         def init_metrics
           @requests = @registry.counter(:http_requests_total, 'A counter of the total number of HTTP requests made')
           @requests_duration = @registry.counter(:http_request_durations_total_microseconds, 'The total amount of time Rack has spent answering HTTP requests (microseconds).')
+          @requests_durations = @registry.histogram(:http_request_durations_microseconds, 'The amounts of time Rack has spent answering HTTP requests (microseconds).')
         end
 
       end

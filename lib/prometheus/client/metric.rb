@@ -22,8 +22,8 @@ module Prometheus
 
       # Returns all values
       def value
-        @values.map do |labels, value|
-          { :labels => labels, :value => value }
+        @values.map do |labels, _|
+          { :labels => labels, :value => get(labels) }
         end
       end
 

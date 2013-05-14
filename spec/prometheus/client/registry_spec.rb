@@ -32,7 +32,7 @@ module Prometheus::Client
         end.to raise_exception
       end
 
-      it 'is thread safe' do
+      it 'is thread-safe' do
         mutex = Mutex.new
         containers = []
 

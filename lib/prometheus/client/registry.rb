@@ -4,6 +4,7 @@ require 'thread'
 require 'prometheus/client/container'
 require 'prometheus/client/counter'
 require 'prometheus/client/gauge'
+require 'prometheus/client/histogram'
 
 module Prometheus
   module Client
@@ -38,6 +39,10 @@ module Prometheus
 
       def gauge(name, docstring, base_labels = {})
         register(name, docstring, Gauge.new, base_labels).metric
+      end
+
+      def histogram(name, docstring, base_labels = {})
+        register(name, docstring, Histogram.new, base_labels).metric
       end
 
       def exist?(name)

@@ -6,4 +6,4 @@ require 'prometheus/client/rack/exporter'
 
 use Prometheus::Client::Rack::Exporter
 use Prometheus::Client::Rack::Collector
-run lambda { |env| [200, {'Content-Type' => 'text/html'}, ['OK']] }
+run lambda { |env| sleep(rand); [200, {'Content-Type' => 'text/html'}, ['OK']] }
