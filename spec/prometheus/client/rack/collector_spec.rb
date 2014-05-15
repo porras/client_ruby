@@ -76,9 +76,11 @@ describe Prometheus::Client::Rack::Collector do
     it 'allows labels configuration' do
       get '/foo/bar'
 
-      expected_labels = { method: 'get', code: '200' }
+      expected_labels = { 'method' => 'get', 'code' => '200' }
 
-      expect(registry.get(:http_requests_total).get(expected_labels)).to eql(1)
+      labels = JSON.parse(registry.to_json).map { |i| i['metric']['value'].map { |j| j['labels'] } }.flatten.uniq
+
+      expect(labels).to eql([expected_labels])
     end
   end
 
